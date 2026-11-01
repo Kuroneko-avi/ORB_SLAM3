@@ -56,6 +56,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(${PROJECT_NAME} SHARED
 src/System.cc
+src/InputRecording.cc
 src/Tracking.cc
 src/LocalMapping.cc
 src/LoopClosing.cc
@@ -142,6 +143,10 @@ endif()
 option(ORB_SLAM3_BUILD_TESTS "Build atlas save regression tests" OFF)
 if(ORB_SLAM3_BUILD_TESTS)
     enable_testing()
+    add_executable(input_recording_regression tests/input_recording_regression.cc)
+    target_link_libraries(input_recording_regression ${PROJECT_NAME})
+    set_target_properties(input_recording_regression PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
+    add_test(NAME input_recording_regression COMMAND input_recording_regression)
     add_executable(imu_settings_regression tests/imu_settings_regression.cc)
     target_link_libraries(imu_settings_regression ${PROJECT_NAME})
     set_target_properties(imu_settings_regression PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
